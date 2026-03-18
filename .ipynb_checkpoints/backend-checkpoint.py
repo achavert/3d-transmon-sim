@@ -34,7 +34,6 @@ class Transmon3D:
         self.anh = anh
         self.lambda1 = lambda1
         self.lambda2 = lambda2
-        self.dt = dt
         self.noise = noise
 
         self.init_state = self.build_initial_state()
@@ -46,14 +45,12 @@ class Transmon3D:
     
     def build_initial_state(self):
         if len(self.noise.values()) == 0:
-            rho0 = np.array([[1, 0, 0],
+            return np.array([[1, 0, 0],
                              [0, 0, 0],
                              [0, 0, 0]], 
                             dtype = complex)
         else :
             return NotImplementedError('Noise simulation not implemented yet')
-        
-        return self.dens2vec(rho0)
 
     def add_new_schedule(self, sched : Schedule3D):
         self.schedules.append(sched)
@@ -76,12 +73,6 @@ class Transmon3D:
         y_points = np.array(y_points)
         return y_points
 
-    def dens2vec(self, rho):
-        return rho.reshape(1, rho.size)[0]
-    
-    def vec2dens(self, vec):
-        dim = int(np.sqrt(vec.size))
-        return vec.reshape(dim, dim)
 
 
 class Schedule3D:
